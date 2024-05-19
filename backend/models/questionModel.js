@@ -14,6 +14,10 @@ const questionSchema = mongoose.Schema(
             type: String,
             required: true
         },
+        ownerUsername:{
+            type: String,
+            required: true
+        },
         owner:{
             type: mongoose.Schema.Types.ObjectId,
             required: true,
@@ -23,7 +27,13 @@ const questionSchema = mongoose.Schema(
             type: Boolean,
             required: true,
             default: false
-        }
+        },
+        voted1:[{
+            type: String,
+        }],
+        voted2:[{
+            type: String,
+        }]
     }
 )
 

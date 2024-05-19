@@ -9,7 +9,15 @@ const userSchema = mongoose.Schema(
         password: {
             type: String,
             required: true,
-        }
+        },
+        questions: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Question'
+        }],
+        votedQuestions: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Question'
+        }]
     }
 )
 

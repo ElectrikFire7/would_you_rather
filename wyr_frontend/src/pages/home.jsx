@@ -13,14 +13,11 @@ const Home = () => {
     const user_ID = location.state?.userData?.userId ?? "non-user";
     console.log(username, user_ID)
 
-    if(username === "non-user"){
-        const navigate = useNavigate();
-        useEffect(() => {
+    useEffect(() => {
+        if (username === "non-user") {
             navigate('/');
-        });
-
-        return (<div>go back simon</div>);
-    }
+        }
+    }, [username, navigate]);
 
     const fetchRandom = () => {
         axios.get('https://would-you-rather-ku9r.onrender.com/question/randomquestions', {
@@ -150,7 +147,7 @@ const Home = () => {
         else{
             fetchMyQuestions();
         }
-    }, [tab]);
+    }, [tab, username, user_ID]);
 
     const toggleShowVotes = (question_id) => {
         if(showVotes === null){

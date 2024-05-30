@@ -14,7 +14,7 @@ const Home = () => {
     console.log(username, user_ID)
 
     const fetchRandom = () => {
-        axios.get('http://localhost:443/question/randomquestions', {
+        axios.get('https://would-you-rather-ku9r.onrender.com/question/randomquestions', {
             params: {
                 user_id: user_ID,
             },
@@ -29,7 +29,7 @@ const Home = () => {
     }
 
     const fetchLatest = () => {
-        axios.get('http://localhost:443/question/randomquestions', {
+        axios.get('https://would-you-rather-ku9r.onrender.com/question/randomquestions', {
             params: {
                 user_id: user_ID,
             },
@@ -44,7 +44,7 @@ const Home = () => {
     }
 
     const fetchMyQuestions = () => {
-        axios.get('http://localhost:443/question/myquestions', {
+        axios.get('https://would-you-rather-ku9r.onrender.com/question/myquestions', {
             params: {
                 user_id: user_ID,
             },
@@ -59,7 +59,7 @@ const Home = () => {
     }
 
     const fetchVotedQuestions = () => {
-        axios.get('http://localhost:443/question/votedquestions', {
+        axios.get('https://would-you-rather-ku9r.onrender.com/question/votedquestions', {
             params: {
                 user_id: user_ID,
             },
@@ -74,7 +74,7 @@ const Home = () => {
     }
 
     const vote = (question_id, option) => {
-        axios.put('http://localhost:443/vote/',{
+        axios.put('https://would-you-rather-ku9r.onrender.com/vote/',{
                 question_id: question_id,
                 user_id: user_ID,
                 username: username,
@@ -101,7 +101,7 @@ const Home = () => {
     }
 
     const deletevote = (question_id) => {
-        axios.delete('http://localhost:443/vote/',{
+        axios.delete('https://would-you-rather-ku9r.onrender.com/vote/',{
             data: {
                 question_id: question_id,
                 user_id: user_ID,

@@ -13,7 +13,7 @@ const signup = () => {
     const handleSendCreds = () => {
         setIsLoading(true); 
 
-        axios.post('http://localhost:443/user/signin', {username: curUsername, password: curPassword})
+        axios.post('https://would-you-rather-ku9r.onrender.com/user/signin', {username: curUsername, password: curPassword})
             .then( response => {
                 console.log('Signup successful', response.data);
 

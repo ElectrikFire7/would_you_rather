@@ -5,6 +5,7 @@ import { User } from "../models/userModel.js";
 const router = express.Router();
 
 router.post("/newQuestion", async (request, response) => {  
+    //route for user to create a new question
     try{
         if(!request.body.description || !request.body.option1 || !request.body.option2){
             return response.status(400).send({message: 'Send all required fields'})
@@ -19,6 +20,7 @@ router.post("/newQuestion", async (request, response) => {
             owner: user_id,
             anonymous, 
         });
+        //need username as when questions are loaded, username maybe displayed
 
         const savedQuestion = await newQuestion.save();
 
@@ -35,8 +37,9 @@ router.post("/newQuestion", async (request, response) => {
 });
 
 router.get("/latestsquestions", async (request, response) => {
+    //route for user to get latest questions from DB where he has not voted
     try{
-        const user_id = request.body.user_id;
+        const user_id = request.query.user_id;
 
         const user = await User.findById(user_id).select('votedQuestions').exec();
         const votedQuestionIds = user.votedQuestions;
@@ -54,8 +57,9 @@ router.get("/latestsquestions", async (request, response) => {
 });
 
 router.get("/randomquestions", async (request, response) => {
+    //route for user to get random questions from DB where he has not voted
     try{
-        const user_id = request.body.user_id;
+        const user_id = request.query.user_id;
 
         const user = await User.findById(user_id).select('votedQuestions').exec();
         const votedQuestionIds = user.votedQuestions;
@@ -72,14 +76,30 @@ router.get("/randomquestions", async (request, response) => {
     }
 });
 
-router.get("/myquestions", async (request, response) => {
+router.get("/votedquestions", async (request, response) => {
+    //route for user to get questions he has voted on
     try {
-        const user_id = request.body.user_id;
+        const user_id = request.query.user_id;
 
         const user = await User.findById(user_id).populate('votedQuestions').exec();
 
         return response.status(200).json(user.votedQuestions);
     } catch (error) {
+        console.log(error.message);
+        return response.status(500).send(error.message);
+    }
+});
+
+router.get("/myquestions", async (request, response) => {
+    //route for user to get questions he has created
+    try{
+        const user_id = request.query.user_id;
+
+        const user = await User.findById(user_id).populate('questions').exec();
+
+        return response.status(200).json(user.questions);
+    }
+    catch(error){
         console.log(error.message);
         return response.status(500).send(error.message);
     }

@@ -1,0 +1,116 @@
+#maindiv {
+    background-color: rgba(24, 12, 24, 0.964);
+    min-height: 100vh;
+    color: white; 
+    display: flex;
+    flex-direction: column;
+    padding: 20px; 
+    box-sizing: border-box; 
+}
+
+#questioncontainer {
+    margin-top: 60px;
+}
+
+#listitem {
+    font-size: large;
+    color: white; /* Changed to white */
+    border: 3px solid rgb(255, 255, 255);
+    background-color: rgba(10, 10, 10, 0.9); /* Ensure background is dark for contrast */
+    padding: 20px;
+    margin: 20px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+#owner{
+    font-size: large;
+    font-weight: bold;
+    font-family: "copperplate", "copperplate gothic light", fantasy;
+}
+
+#question{
+    font-size: x-large;
+    font-family: "copperplate", "copperplate gothic light", fantasy;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+#button {
+    color: white;
+    background-color: black;
+    border: 3px solid rgb(255, 255, 255);
+    border-radius: 10px;
+    margin: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    width: 600px;
+    text-align: center;
+    font-family: "copperplate", "copperplate gothic light", fantasy;
+}
+
+#buttoncontainer{
+    display: flex;
+    justify-content: center;
+}
+
+#deletevote{
+    font-size: small;
+}
+
+#tabs {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+}
+
+.tab-button {
+    background-color: rgba(18, 18, 18, 0.882);
+    color: white;
+    padding: 10px 20px;
+    margin-right: 10px;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.tab-button.active {
+    background-color: white;
+    color: black;
+}
+
+#showvotes{
+    position: absolute;
+    font-size: small;
+    bottom: 0;
+    right: 0;
+    margin: 7px;
+}
+
+.question-wrapper {
+    position: relative;
+}
+
+#votes{
+    margin-top:10px;
+    display: flex;
+    justify-content: center;
+}
+
+#votes_list{
+    margin: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+    width: 600px;
+    font-size:small
+}
+
+#votes1_header{
+    color: rgb(55, 255, 0);
+}
+
+#votes2_header{
+    color: rgb(255, 179, 0);
+}

@@ -5,6 +5,7 @@ import { User } from "../models/userModel.js";
 const router = express.Router();
 
 router.post("/signin", async (request, response) => {
+    //route for user to sign up
     try{
         if(!request.body.username || !request.body.password){
             return response.status(400).send({message: 'Send all required fields'})
@@ -37,6 +38,7 @@ router.post("/signin", async (request, response) => {
 });
 
 router.post("/login", async (request, response) =>{
+    //route for user to login
     try{
         const { username, password } = request.body;
 

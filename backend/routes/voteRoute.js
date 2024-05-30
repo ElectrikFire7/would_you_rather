@@ -5,6 +5,7 @@ import { Question } from "../models/questionModel.js";
 const router = express.Router();
 
 router.put("/", async (request, response) => {
+    //route for user to vote
     try{
         const { question_id, option, user_id, username } = request.body;
 
@@ -51,6 +52,40 @@ router.put("/", async (request, response) => {
         return response.status(200).send("Voted successfully");
 
     }catch(error){
+        console.log(error.message);
+        return response.status(500).send(error.message);
+    }
+});
+
+router.delete("/", async (request, response) => {
+    //route for user to remove vote
+    try {
+        const { question_id, user_id, username } = request.body;
+        const question = await Question.findById(question_id);
+
+        if(!question){
+            return response.status(404).send("Question not found");
+        }
+
+        if(question.voted1.includes(username)){
+            question.voted1.pull(username);
+        }
+        else if(question.voted2.includes(username)){
+            question.voted2.pull(username);
+        }
+        else{
+            return response.status(404).send("You have not voted for this question");
+        }
+
+        await question.save();
+
+        const user = await User.findById(user_id);
+        user.votedQuestions.pull(question_id);
+        await user.save();
+
+        return response.status(200).send("Vote removed successfully");
+        
+    } catch (error) {
         console.log(error.message);
         return response.status(500).send(error.message);
     }

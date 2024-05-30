@@ -13,6 +13,15 @@ const Home = () => {
     const user_ID = location.state?.userData?.userId ?? "non-user";
     console.log(username, user_ID)
 
+    if(username === "non-user"){
+        const navigate = useNavigate();
+        useEffect(() => {
+            navigate('/');
+        });
+
+        return (<div>go back simon</div>);
+    }
+
     const fetchRandom = () => {
         axios.get('https://would-you-rather-ku9r.onrender.com/question/randomquestions', {
             params: {

@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from 'react'
 import axios from "axios";
 import { useLocation, useNavigate } from 'react-router-dom';
-import '../assets/home.css' 
+import '../assets/home.css'
+import {BrowserView, MobileView} from 'react-device-detect';
 
 const CreateQuestion = () => {
     const navigate = useNavigate();
@@ -14,6 +15,7 @@ const CreateQuestion = () => {
     const [anonymous, setAnonymous] = useState(false);
     const [option1, setOption1] = useState('');
     const [option2, setOption2] = useState('');
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         if (username === "non-user") {
@@ -26,6 +28,8 @@ const CreateQuestion = () => {
     }
 
     const createQuestion = () => {
+        setIsLoading(true);
+        
         try{
             axios.post('https://would-you-rather-ku9r.onrender.com/question/newQuestion', {
                 description,
@@ -36,6 +40,7 @@ const CreateQuestion = () => {
                 user_id: user_ID
             })
             .then(() => {
+                setIsLoading(false);
                 travelHome();
             })
         }
@@ -45,6 +50,8 @@ const CreateQuestion = () => {
     }
 
     return(
+        <>
+        <BrowserView>
         <div id='maindiv'>
             <div>
                 <button className={`tab-button`} onClick={() => travelHome()} >Home</button>
@@ -67,9 +74,38 @@ const CreateQuestion = () => {
                     <label id='label'>Anonymous:</label>
                     <input type='checkbox' value={anonymous} onChange={(e) => setAnonymous(e.target.checked)} />
                 </div>
-                <button id='createQuestionButton' onClick={createQuestion}>Create question</button>
+                <button id='createQuestionButton' onClick={createQuestion}>{isLoading ? 'Loading...' : 'Create Question'}</button>
             </div>
         </div>
+        </BrowserView>
+        <MobileView>
+        <div id='maindiv'>
+            <div>
+                <button className={`tab-button`} onClick={() => travelHome()} >Home</button>
+            </div>
+            <div>
+                <h1 id='cnq'>Create a new question</h1>
+                <div>
+                    <label id='label'>Question description:</label>
+                    <input id='mobileinputdecription' type='text' value={description} onChange={(e) => setDescription(e.target.value)} />
+                </div>
+                <div>
+                    <label id='label'>Option 1:</label>
+                    <input id='input' type='text' value={option1} onChange={(e) => setOption1(e.target.value)} />
+                </div>
+                <div>
+                    <label id='label'>Option 2:</label>
+                    <input id='input' type='text' value={option2} onChange={(e) => setOption2(e.target.value)} />
+                </div>
+                <div>
+                    <label id='label'>Anonymous:</label>
+                    <input type='checkbox' value={anonymous} onChange={(e) => setAnonymous(e.target.checked)} />
+                </div>
+                <button id='createQuestionButton' onClick={createQuestion}>{isLoading ? 'Loading...' : 'Create Question'}</button>
+            </div>
+        </div>
+        </MobileView>
+        </>
     )
 }
 

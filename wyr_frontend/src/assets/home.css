@@ -160,6 +160,24 @@
     background-color: darkred;
 }
 
+/* Mobile specific styles */
+@media (max-width: 768px) {
+    #question {
+        font-size: large;
+        font-family: "copperplate", "copperplate gothic light", fantasy; /* Ensure font-family is applied */
+    }
+
+    #owner {
+        font-size: medium;
+        font-family: "copperplate", "copperplate gothic light", fantasy; /* Ensure font-family is applied */
+    }
+
+    #button {
+        font-size: medium;
+        font-family: "copperplate", "copperplate gothic light", fantasy; /* Ensure font-family is applied */
+    }
+}
+
 #mobileinputdecription{
     color: black;
     padding: 5px;

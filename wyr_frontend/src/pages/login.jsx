@@ -36,7 +36,7 @@ const Login = () => {
     return(
         <div id="outer_div">
             <div id="inner_div">
-            <img src={wouldYouRatherImage} alt='Would You Rather'></img>
+            <img src={wouldYouRatherImage} alt='Would You Rather'/>
                 <h1>Login</h1>
                 <input id="textBar" type='text' placeholder='Username' onChange={e => setUsername(e.target.value)} />
                 <input id="textBar" type='password' placeholder='Password' onChange={e => setPassword(e.target.value)} />

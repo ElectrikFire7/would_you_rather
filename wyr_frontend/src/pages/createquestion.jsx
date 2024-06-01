@@ -16,6 +16,7 @@ const CreateQuestion = () => {
     const [option1, setOption1] = useState('');
     const [option2, setOption2] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const [cerror, setCerror] = useState('');
 
     useEffect(() => {
         if (username === "non-user") {
@@ -29,24 +30,24 @@ const CreateQuestion = () => {
 
     const createQuestion = () => {
         setIsLoading(true);
-        
-        try{
-            axios.post('https://would-you-rather-ku9r.onrender.com/question/newQuestion', {
-                description,
-                option1,
-                option2,
-                anonymous,
-                username,
-                user_id: user_ID
-            })
-            .then(() => {
-                setIsLoading(false);
-                travelHome();
-            })
-        }
-        catch(error){
+
+        axios.post('https://would-you-rather-ku9r.onrender.com/question/newQuestion', {
+            description,
+            option1,
+            option2,
+            anonymous,
+            username,
+            user_id: user_ID
+        })
+        .then(() => {
+            setIsLoading(false);
+            travelHome();
+        })
+        .catch((error) => {
             console.log(error.message);
-        }
+            setIsLoading(false);
+            setCerror('fill all 3 fields');
+        });
     }
 
     return(
@@ -54,7 +55,7 @@ const CreateQuestion = () => {
         <BrowserView>
         <div id='maindiv'>
             <div>
-                <button className={`tab-button`} onClick={() => travelHome()} >Home</button>
+                <button className={`tab-button`} onClick={travelHome} >Home</button>
             </div>
             <div>
                 <h1 id='cnq'>Create a new question</h1>
@@ -76,6 +77,7 @@ const CreateQuestion = () => {
                 </div>
                 <button id='createQuestionButton' onClick={createQuestion}>{isLoading ? 'Loading...' : 'Create Question'}</button>
             </div>
+            <p id='error'>{cerror}</p>
         </div>
         </BrowserView>
         <MobileView>
@@ -103,6 +105,7 @@ const CreateQuestion = () => {
                 </div>
                 <button id='createQuestionButton' onClick={createQuestion}>{isLoading ? 'Loading...' : 'Create Question'}</button>
             </div>
+            <p id='error'>{cerror}</p>
         </div>
         </MobileView>
         </>

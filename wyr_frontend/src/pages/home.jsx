@@ -37,7 +37,7 @@ const Home = () => {
     }
 
     const fetchLatest = () => {
-        axios.get('https://would-you-rather-ku9r.onrender.com/question/randomquestions', {
+        axios.get('https://would-you-rather-ku9r.onrender.com/question/latestsquestions', {
             params: {
                 user_id: user_ID,
             },

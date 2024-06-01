@@ -1,17 +1,19 @@
-import React, {useState, useEffect, useRef} from 'react'
+import React, {useState, useEffect} from 'react'
 import axios from "axios";
 import { useLocation, useNavigate } from 'react-router-dom';
 import '../assets/home.css' 
+import {BrowserView, MobileView} from 'react-device-detect';
 
 const Home = () => {
     const navigate = useNavigate();
-    const [questions, setQuestions] = useState([]);
-    const [showVotes, setShowVotes] = useState(null);
     const location = useLocation();
-    const [tab, setTab] = useState('random');
+
     const username = location.state?.userData?.username ?? "non-user";
     const user_ID = location.state?.userData?.userId ?? "non-user";
-    console.log(username, user_ID)
+
+    const [questions, setQuestions] = useState([]);
+    const [showVotes, setShowVotes] = useState(null);
+    const [tab, setTab] = useState('random');
 
     useEffect(() => {
         if (username === "non-user") {
@@ -168,13 +170,19 @@ const Home = () => {
         return colors[randomIndex];
     };
 
+    const travelCreateQuestion = () => {
+        navigate('/createQuestion', {state: { userData: location.state.userData }});
+    }
+
     return(
+        <><BrowserView>
         <div id='maindiv'>
             <div id='tabs'>
                 <button className={`tab-button ${tab === 'random' ? 'active' : ''}`} onClick={() => setTab('random')} disabled={tab === 'random'}>Random Questions</button>
                 <button className={`tab-button ${tab === 'latest' ? 'active' : ''}`} onClick={() => setTab('latest')} disabled={tab === 'latest'}>Latest Questions</button>
                 <button className={`tab-button ${tab === 'voted' ? 'active' : ''}`} onClick={() => setTab('voted')} disabled={tab === 'voted'}>Voted Questions</button>
                 <button className={`tab-button ${tab === 'myquestions' ? 'active' : ''}`} onClick={() => setTab('myquestions')} disabled={tab === 'myquestions'}>My Questions</button>
+                <button className={`tab-button`} onClick={travelCreateQuestion}>Create Question</button>
             </div>
             <div id='questioncontainer'>
             <ul>
@@ -213,6 +221,55 @@ const Home = () => {
             </ul>
             </div>
         </div>
+        </BrowserView>
+        <MobileView>
+        <div id='maindiv'>
+            <div id='tabs'>
+                <button className={`tab-button ${tab === 'random' ? 'active' : ''}`} onClick={() => setTab('random')} disabled={tab === 'random'}>RQ</button>
+                <button className={`tab-button ${tab === 'latest' ? 'active' : ''}`} onClick={() => setTab('latest')} disabled={tab === 'latest'}>LQ</button>
+                <button className={`tab-button ${tab === 'voted' ? 'active' : ''}`} onClick={() => setTab('voted')} disabled={tab === 'voted'}>VQ</button>
+                <button className={`tab-button ${tab === 'myquestions' ? 'active' : ''}`} onClick={() => setTab('myquestions')} disabled={tab === 'myquestions'}>MQ</button>
+                <button className={`tab-button`} onClick={travelCreateQuestion}>CQ</button>
+            </div>
+            <div id='questioncontainer'>
+            <ul>
+                {questions.map(question => (
+                    <li id='listitem' key={question._id} className='question-wrapper'>
+                        <p id='owner' style={{ color: getRandomColor() }}>{question.anonymous ? "Anonymous-Hippopotamus" : question.ownerUsername}</p>
+                        <p id='question'>{question.description}</p>
+                        <div id='buttoncontainer'>
+                            <button id='button' onClick={() => vote(question._id, 1)}>{question.option1}</button>
+                            <button id='button' onClick={() => vote(question._id, 2)}>{question.option2}</button>
+                        </div>
+                        <button id='deletevote' onClick={() => deletevote(question._id)}>Delete Vote</button>
+                        <button id='showvotes' onClick={() => toggleShowVotes(question._id)}>Votes</button>
+                        {showVotes === question._id && (
+                            <div id='votes'>
+                                <div id='votes_list'>
+                                <p id='votes1_header'>{question.option1}: {question.voted1.length}</p>
+                                <ul>
+                                    {question.voted1.map((voter, index) => (
+                                        <li key={index}>{voter}</li>
+                                    ))}
+                                </ul>
+                                </div>
+                                <div id='votes_list'>
+                                <p id='votes2_header'>{question.option2}: {question.voted2.length}</p>
+                                <ul>
+                                    {question.voted2.map((voter, index) => (
+                                        <li key={index}>{voter}</li>
+                                    ))}
+                                </ul>
+                                </div>
+                            </div>
+                        )}
+                    </li>
+                ))}
+            </ul>
+            </div>
+        </div>
+        </MobileView>
+        </>
     )
 }
 

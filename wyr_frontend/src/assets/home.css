@@ -114,3 +114,48 @@
 #votes2_header{
     color: rgb(255, 179, 0);
 }
+
+#label{
+    font-family: "copperplate", "copperplate gothic light", fantasy;
+    padding: 10px;
+    margin:15px;
+}
+
+#input{
+    color: black;
+    padding: 5px;
+    margin:10px;
+    border-radius: 10px;
+}
+
+#inputdecription{
+    color: black;
+    padding: 5px;
+    margin: 15px;
+    border-radius: 10px;
+    width: 900px;
+}
+
+#cnq{
+    font-size: x-large;
+    font-family: "copperplate", "copperplate gothic light", fantasy;
+    margin: 15px;
+    display: flex;
+    justify-content: center;
+}
+
+#createQuestionButton {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    border-radius: 10px;
+}
+
+#createQuestionButton:hover {
+    background-color: darkred;
+}

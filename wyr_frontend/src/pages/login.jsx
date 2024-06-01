@@ -42,7 +42,7 @@ const Login = () => {
                 <input id="textBar" type='password' placeholder='Password' onChange={e => setPassword(e.target.value)} />
                 {loginError && <p>{loginError}</p>}
                 <button id='login_button' onClick={handleSendCreds} disabled={isLoading}>{isLoading ? 'Loading...' : 'Login'}</button>
-                <button id='login_button' onClick={redirectSignUp}>Sign Up</button>
+                <button id='login_button' onClick={redirectSignUp}>Sign Up Page</button>
             </div>
         </div>
     )

@@ -3,6 +3,10 @@ import axios from "axios";
 import { useLocation, useNavigate } from 'react-router-dom';
 import '../assets/home.css' 
 import {BrowserView, MobileView} from 'react-device-detect';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGlobe, faClock, faCheck, faUser } from '@fortawesome/free-solid-svg-icons';
+
+
 
 const Home = () => {
     const navigate = useNavigate();
@@ -178,10 +182,10 @@ const Home = () => {
         <><BrowserView>
         <div id='maindiv'>
             <div id='tabs'>
-                <button className={`tab-button ${tab === 'random' ? 'active' : ''}`} onClick={() => setTab('random')} disabled={tab === 'random'}>Random Questions</button>
-                <button className={`tab-button ${tab === 'latest' ? 'active' : ''}`} onClick={() => setTab('latest')} disabled={tab === 'latest'}>Latest Questions</button>
-                <button className={`tab-button ${tab === 'voted' ? 'active' : ''}`} onClick={() => setTab('voted')} disabled={tab === 'voted'}>Voted Questions</button>
-                <button className={`tab-button ${tab === 'myquestions' ? 'active' : ''}`} onClick={() => setTab('myquestions')} disabled={tab === 'myquestions'}>My Questions</button>
+                <button className={`tab-button ${tab === 'random' ? 'active' : ''}`} onClick={() => setTab('random')} disabled={tab === 'random'}><FontAwesomeIcon icon={faGlobe} /> Random Questions</button>
+                <button className={`tab-button ${tab === 'latest' ? 'active' : ''}`} onClick={() => setTab('latest')} disabled={tab === 'latest'}><FontAwesomeIcon icon={faClock} /> Latest Questions</button>
+                <button className={`tab-button ${tab === 'voted' ? 'active' : ''}`} onClick={() => setTab('voted')} disabled={tab === 'voted'}><FontAwesomeIcon icon={faCheck} /> Voted Questions</button>
+                <button className={`tab-button ${tab === 'myquestions' ? 'active' : ''}`} onClick={() => setTab('myquestions')} disabled={tab === 'myquestions'}><FontAwesomeIcon icon={faUser} /> My Questions</button>
                 <button className={`tab-button`} onClick={travelCreateQuestion}>Create Question</button>
             </div>
             <div id='questioncontainer'>
@@ -225,10 +229,10 @@ const Home = () => {
         <MobileView>
         <div id='maindiv'>
             <div id='tabs'>
-                <button className={`tab-button ${tab === 'random' ? 'active' : ''}`} onClick={() => setTab('random')} disabled={tab === 'random'}>RQ</button>
-                <button className={`tab-button ${tab === 'latest' ? 'active' : ''}`} onClick={() => setTab('latest')} disabled={tab === 'latest'}>LQ</button>
-                <button className={`tab-button ${tab === 'voted' ? 'active' : ''}`} onClick={() => setTab('voted')} disabled={tab === 'voted'}>VQ</button>
-                <button className={`tab-button ${tab === 'myquestions' ? 'active' : ''}`} onClick={() => setTab('myquestions')} disabled={tab === 'myquestions'}>MQ</button>
+                <button className={`tab-button ${tab === 'random' ? 'active' : ''}`} onClick={() => setTab('random')} disabled={tab === 'random'} ><FontAwesomeIcon icon={faGlobe} /></button>
+                <button className={`tab-button ${tab === 'latest' ? 'active' : ''}`} onClick={() => setTab('latest')} disabled={tab === 'latest'}><FontAwesomeIcon icon={faClock} /></button>
+                <button className={`tab-button ${tab === 'voted' ? 'active' : ''}`} onClick={() => setTab('voted')} disabled={tab === 'voted'}><FontAwesomeIcon icon={faCheck} /></button>
+                <button className={`tab-button ${tab === 'myquestions' ? 'active' : ''}`} onClick={() => setTab('myquestions')} disabled={tab === 'myquestions'}><FontAwesomeIcon icon={faUser} /></button>
                 <button className={`tab-button`} onClick={travelCreateQuestion}>CQ</button>
             </div>
             <div id='questioncontainer'>

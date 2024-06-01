@@ -164,17 +164,17 @@
 @media (max-width: 768px) {
     #question {
         font-size: large;
-        font-family: "copperplate", "copperplate gothic light", fantasy; /* Ensure font-family is applied */
+        font-family: 'Roboto', "copperplate", "copperplate gothic light", fantasy;
     }
 
     #owner {
         font-size: medium;
-        font-family: "copperplate", "copperplate gothic light", fantasy; /* Ensure font-family is applied */
+        font-family: 'Roboto', "copperplate", "copperplate gothic light", fantasy;
     }
 
     #button {
         font-size: medium;
-        font-family: "copperplate", "copperplate gothic light", fantasy; /* Ensure font-family is applied */
+        font-family: 'Roboto', "copperplate", "copperplate gothic light", fantasy;
     }
 }
 

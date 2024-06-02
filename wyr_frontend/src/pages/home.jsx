@@ -26,7 +26,7 @@ const Home = () => {
     }, [username, navigate]);
 
     const fetchRandom = () => {
-        axios.get('https://would-you-rather-ku9r.onrender.com/question/randomquestions', {
+        axios.get('https://would-you-rather-backend.vercel.app/question/randomquestions', {
             params: {
                 user_id: user_ID,
             },
@@ -41,7 +41,7 @@ const Home = () => {
     }
 
     const fetchLatest = () => {
-        axios.get('https://would-you-rather-ku9r.onrender.com/question/latestsquestions', {
+        axios.get('https://would-you-rather-backend.vercel.app/question/latestsquestions', {
             params: {
                 user_id: user_ID,
             },
@@ -56,7 +56,7 @@ const Home = () => {
     }
 
     const fetchMyQuestions = () => {
-        axios.get('https://would-you-rather-ku9r.onrender.com/question/myquestions', {
+        axios.get('https://would-you-rather-backend.vercel.app/question/myquestions', {
             params: {
                 user_id: user_ID,
             },
@@ -71,7 +71,7 @@ const Home = () => {
     }
 
     const fetchVotedQuestions = () => {
-        axios.get('https://would-you-rather-ku9r.onrender.com/question/votedquestions', {
+        axios.get('https://would-you-rather-backend.vercel.app/question/votedquestions', {
             params: {
                 user_id: user_ID,
             },
@@ -86,7 +86,7 @@ const Home = () => {
     }
 
     const vote = (question_id, option) => {
-        axios.put('https://would-you-rather-ku9r.onrender.com/vote/',{
+        axios.put('https://would-you-rather-backend.vercel.app/vote/',{
                 question_id: question_id,
                 user_id: user_ID,
                 username: username,
@@ -113,7 +113,7 @@ const Home = () => {
     }
 
     const deletevote = (question_id) => {
-        axios.delete('https://would-you-rather-ku9r.onrender.com/vote/',{
+        axios.delete('https://would-you-rather-backend.vercel.app/vote/',{
             data: {
                 question_id: question_id,
                 user_id: user_ID,
@@ -189,6 +189,7 @@ const Home = () => {
                 <button className={`tab-button`} onClick={travelCreateQuestion}>Create Question</button>
             </div>
             <div id='questioncontainer'>
+            <p id='question'>{questions.length === 0 ? 'No questions in this category for you' : ''}</p>
             <ul>
                 {questions.map(question => (
                     <li id='listitem' key={question._id} className='question-wrapper'>
@@ -236,6 +237,7 @@ const Home = () => {
                 <button className={`tab-button`} onClick={travelCreateQuestion}>CQ</button>
             </div>
             <div id='questioncontainer'>
+            <p id='question'>{questions.length === 0 ? 'No questions in this category for you' : ''}</p>
             <ul>
                 {questions.map(question => (
                     <li id='listitem' key={question._id} className='question-wrapper'>

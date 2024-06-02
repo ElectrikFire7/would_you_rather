@@ -31,7 +31,7 @@ const CreateQuestion = () => {
     const createQuestion = () => {
         setIsLoading(true);
 
-        axios.post('https://would-you-rather-ku9r.onrender.com/question/newQuestion', {
+        axios.post('https://would-you-rather-backend.vercel.app/question/newQuestion', {
             description,
             option1,
             option2,

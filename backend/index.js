@@ -9,8 +9,14 @@ import cors from "cors";
 const app = express();
 app.use(express.json());
 
-//all origin
-app.use(cors());
+const corsOptions = {
+    origin: "*", 
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    preflightContinue: false,
+    optionsSuccessStatus: 204
+};
+
+app.use(cors(corsOptions));
 
 app.use("/user", userRoute);
 app.use("/question", questionRoute);

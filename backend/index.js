@@ -10,7 +10,7 @@ const app = express();
 app.use(express.json());
 
 const corsOptions = {
-    origin: ["http://localhost:5173"], 
+    origin: ["http://localhost:5173", "https://would-you-rather-blue.vercel.app/"], 
     methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
 };
 

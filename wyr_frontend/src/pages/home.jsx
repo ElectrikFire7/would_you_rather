@@ -26,7 +26,7 @@ const Home = () => {
     }, [username, navigate]);
 
     const fetchRandom = () => {
-        axios.get('https://would-you-rather-backend.vercel.app/question/randomquestions', {
+        axios.get('https://would-you-rather-ku9r.onrender.com/question/randomquestions', {
             params: {
                 user_id: user_ID,
             },
@@ -41,7 +41,7 @@ const Home = () => {
     }
 
     const fetchLatest = () => {
-        axios.get('https://would-you-rather-backend.vercel.app/question/latestsquestions', {
+        axios.get('https://would-you-rather-ku9r.onrender.com/question/latestsquestions', {
             params: {
                 user_id: user_ID,
             },
@@ -56,7 +56,7 @@ const Home = () => {
     }
 
     const fetchMyQuestions = () => {
-        axios.get('https://would-you-rather-backend.vercel.app/question/myquestions', {
+        axios.get('https://would-you-rather-ku9r.onrender.com/question/myquestions', {
             params: {
                 user_id: user_ID,
             },
@@ -71,7 +71,7 @@ const Home = () => {
     }
 
     const fetchVotedQuestions = () => {
-        axios.get('https://would-you-rather-backend.vercel.app/question/votedquestions', {
+        axios.get('https://would-you-rather-ku9r.onrender.com/question/votedquestions', {
             params: {
                 user_id: user_ID,
             },
@@ -86,7 +86,7 @@ const Home = () => {
     }
 
     const vote = (question_id, option) => {
-        axios.put('https://would-you-rather-backend.vercel.app/vote/',{
+        axios.put('https://would-you-rather-ku9r.onrender.com/vote/',{
                 question_id: question_id,
                 user_id: user_ID,
                 username: username,
@@ -113,7 +113,7 @@ const Home = () => {
     }
 
     const deletevote = (question_id) => {
-        axios.delete('https://would-you-rather-backend.vercel.app/vote/',{
+        axios.delete('https://would-you-rather-ku9r.onrender.com/vote/',{
             data: {
                 question_id: question_id,
                 user_id: user_ID,

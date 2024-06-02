@@ -14,7 +14,7 @@ const Login = () => {
     const handleSendCreds = () => {
         setIsLoading(true); 
 
-        axios.post('https://would-you-rather-backend.vercel.app/user/login', {username: curUsername, password: curPassword})
+        axios.post('https://would-you-rather-ku9r.onrender.com/user/login', {username: curUsername, password: curPassword})
             .then( response => {
                 console.log('Login successful', response.data);
 

@@ -18,7 +18,7 @@ const signup = () => {
             .then( response => {
                 console.log('Signup successful', response.data);
 
-                navigate('/home', {state: { userData: response.data }});
+                navigate('/newInfo', {state: { userData: response.data }});
             })
             .catch( error => {
                 console.error("error: ", error);

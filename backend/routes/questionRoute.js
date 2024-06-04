@@ -4,39 +4,39 @@ import { User } from "../models/userModel.js";
 
 const router = express.Router();
 
-router.post("/newQuestion", async (request, response) => {  
-    //route for user to create a new question
-    try{
-        if(!request.body.description || !request.body.option1 || !request.body.option2){
-            return response.status(400).send({message: 'Send all required fields'})
-        }
+// router.post("/newQuestion", async (request, response) => {  
+//     //route for user to create a new question
+//     try{
+//         if(!request.body.description || !request.body.option1 || !request.body.option2){
+//             return response.status(400).send({message: 'Send all required fields'})
+//         }
 
-        const { description, option1, option2, username, user_id, anonymous } = request.body
-        const newQuestion = new Question({
-            description,
-            option1,
-            option2,
-            ownerUsername: username,
-            owner: user_id,
-            anonymous, 
-        });
-        //need username as when questions are loaded, username maybe displayed
+//         const { description, option1, option2, username, user_id, anonymous } = request.body
+//         const newQuestion = new Question({
+//             description,
+//             option1,
+//             option2,
+//             ownerUsername: username,
+//             owner: user_id,
+//             anonymous, 
+//         });
+//         //need username as when questions are loaded, username maybe displayed
 
-        const savedQuestion = await newQuestion.save();
+//         const savedQuestion = await newQuestion.save();
 
-        const user = await User.findById(user_id);
-        user.questions.push(savedQuestion._id);
-        await user.save();
+//         const user = await User.findById(user_id);
+//         user.questions.push(savedQuestion._id);
+//         await user.save();
 
-        console.log('Question created successfully')
+//         console.log('Question created successfully')
 
-        response.status(201).json(savedQuestion);
-    }
-    catch(error){
-        console.log(error.message);
-        return response.status(500).send(error.message);
-    }
-});
+//         response.status(201).json(savedQuestion);
+//     }
+//     catch(error){
+//         console.log(error.message);
+//         return response.status(500).send(error.message);
+//     }
+// });
 
 router.get("/latestsquestions", async (request, response) => {
     //route for user to get latest questions from DB where he has not voted
@@ -101,10 +101,9 @@ router.get("/myquestions", async (request, response) => {
     //route for user to get questions he has created
     try{
         const user_id = request.query.user_id;
-
         const user = await User.findById(user_id).populate('questions').exec();
 
-        console.log('My questions fetched successfully');
+        console.log(user.questions);
         return response.status(200).json(user.questions);
     }
     catch(error){

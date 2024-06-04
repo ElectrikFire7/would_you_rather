@@ -8,11 +8,9 @@ const questionSchema = mongoose.Schema(
         },
         option1:{
             type: String,
-            required: true
         },
         option2:{
             type: String,
-            required: true
         },
         ownerUsername:{
             type: String,
@@ -33,7 +31,13 @@ const questionSchema = mongoose.Schema(
         }],
         voted2:[{
             type: String,
-        }]
+        }],
+        image1:{
+            type: String,
+        },
+        image2:{
+            type: String,
+        }        
     }
 )
 

@@ -178,15 +178,16 @@ const Home = () => {
         navigate('/createQuestion', {state: { userData: location.state.userData }});
     }
 
+
     return(
         <><BrowserView>
         <div id='maindiv'>
             <div id='tabs'>
-                <button className={`tab-button ${tab === 'random' ? 'active' : ''}`} onClick={() => setTab('random')} disabled={tab === 'random'}><FontAwesomeIcon icon={faGlobe} /> Random Questions</button>
-                <button className={`tab-button ${tab === 'latest' ? 'active' : ''}`} onClick={() => setTab('latest')} disabled={tab === 'latest'}><FontAwesomeIcon icon={faClock} /> Latest Questions</button>
-                <button className={`tab-button ${tab === 'voted' ? 'active' : ''}`} onClick={() => setTab('voted')} disabled={tab === 'voted'}><FontAwesomeIcon icon={faCheck} /> Voted Questions</button>
-                <button className={`tab-button ${tab === 'myquestions' ? 'active' : ''}`} onClick={() => setTab('myquestions')} disabled={tab === 'myquestions'}><FontAwesomeIcon icon={faUser} /> My Questions</button>
-                <button className={`tab-button`} onClick={travelCreateQuestion}>Create Question</button>
+                <button className={`tab-button ${tab === 'random' ? 'active' : ''}`} onClick={() => setTab('random')} disabled={tab === 'random'}><FontAwesomeIcon icon={faGlobe} /> Random Cardss</button>
+                <button className={`tab-button ${tab === 'latest' ? 'active' : ''}`} onClick={() => setTab('latest')} disabled={tab === 'latest'}><FontAwesomeIcon icon={faClock} /> Latest cards</button>
+                <button className={`tab-button ${tab === 'voted' ? 'active' : ''}`} onClick={() => setTab('voted')} disabled={tab === 'voted'}><FontAwesomeIcon icon={faCheck} /> Voted Cards</button>
+                <button className={`tab-button ${tab === 'myquestions' ? 'active' : ''}`} onClick={() => setTab('myquestions')} disabled={tab === 'myquestions'}><FontAwesomeIcon icon={faUser} /> My Cards</button>
+                <button className={`tab-button`} onClick={travelCreateQuestion}>Create Card</button>
             </div>
             <div id='questioncontainer'>
             <p id='question'>{questions.length === 0 ? 'No questions in this category for you' : ''}</p>
@@ -196,8 +197,38 @@ const Home = () => {
                         <p id='owner' style={{ color: getRandomColor() }}>{question.anonymous ? "Anonymous-Hippopotamus" : question.ownerUsername}</p>
                         <p id='question'>{question.description}</p>
                         <div id='buttoncontainer'>
-                            <button id='button' onClick={() => vote(question._id, 1)}>{question.option1}</button>
-                            <button id='button' onClick={() => vote(question._id, 2)}>{question.option2}</button>
+                            <button id='button' onClick={() => vote(question._id, 1)} style={{
+                                backgroundImage: question.image1 ? `url(data:image/png;base64,${question.image1})` : 'none',
+                                backgroundSize: 'cover',
+                                backgroundPosition: 'center',
+                                width: question.image1 ? '250px' : '600px',
+                                height: question.image1 ? '250px' : 'auto',
+                                color: question.image1 ? 'transparent' : 'white',
+                                backgroundColor: question.image1 ? 'transparent' : 'black',
+                                border: '3px solid rgb(255, 255, 255)',
+                                borderRadius: '15px',
+                                margin: '10px',
+                                padding: '5px',
+                                textAlign: 'center',
+                                fontFamily: '"copperplate", "copperplate gothic light", fantasy'
+                            }}>
+                                {question.option1}</button>
+                            <button id='button' onClick={() => vote(question._id, 2)} style={{
+                                backgroundImage: question.image2 ? `url(data:image/png;base64,${question.image2})` : 'none',
+                                backgroundSize: 'cover',
+                                backgroundPosition: 'center',
+                                width: question.image2 ? '250px' : '600px',
+                                height: question.image2 ? '250px' : 'auto',
+                                color: question.image2 ? 'transparent' : 'white',
+                                backgroundColor: question.image2 ? 'transparent' : 'black',
+                                border: '3px solid rgb(255, 255, 255)',
+                                borderRadius: '15px',
+                                margin: '10px',
+                                padding: '10px',
+                                textAlign: 'center',
+                                fontFamily: '"copperplate", "copperplate gothic light", fantasy'
+                            }}>
+                                {question.option2}</button>
                         </div>
                         <button id='deletevote' onClick={() => deletevote(question._id)}>Delete Vote</button>
                         <button id='showvotes' onClick={() => toggleShowVotes(question._id)}>Votes</button>
@@ -244,8 +275,40 @@ const Home = () => {
                         <p id='owner' style={{ color: getRandomColor() }}>{question.anonymous ? "Anonymous-Hippopotamus" : question.ownerUsername}</p>
                         <p id='question'>{question.description}</p>
                         <div id='buttoncontainer'>
-                            <button id='button' onClick={() => vote(question._id, 1)}>{question.option1}</button>
-                            <button id='button' onClick={() => vote(question._id, 2)}>{question.option2}</button>
+                            <button id='button' onClick={() => vote(question._id, 1)} style={{
+                                backgroundImage: question.image1 ? `url(data:image/png;base64,${question.image1})` : 'none',
+                                backgroundSize: 'cover',
+                                backgroundPosition: 'center',
+                                width: question.image1 ? '250px' : '600px',
+                                height: question.image1 ? '250px' : 'auto',
+                                color: question.image1 ? 'transparent' : 'white',
+                                backgroundColor: question.image1 ? 'transparent' : 'black',
+                                border: '3px solid rgb(255, 255, 255)',
+                                borderRadius: '15px',
+                                margin: '10px',
+                                paddingTop: '5px',
+                                paddingBottom: '5px',
+                                textAlign: 'center',
+                                fontFamily: '"copperplate", "copperplate gothic light", fantasy'
+                            }}>
+                                {question.option1}</button>
+                            <button id='button' onClick={() => vote(question._id, 2)} style={{
+                                backgroundImage: question.image2 ? `url(data:image/png;base64,${question.image2})` : 'none',
+                                backgroundSize: 'cover',
+                                backgroundPosition: 'center',
+                                width: question.image2 ? '250px' : '600px',
+                                height: question.image2 ? '250px' : 'auto',
+                                color: question.image2 ? 'transparent' : 'white',
+                                backgroundColor: question.image2 ? 'transparent' : 'black',
+                                border: '3px solid rgb(255, 255, 255)',
+                                borderRadius: '15px',
+                                margin: '10px',
+                                paddingTop: '5px',
+                                paddingBottom: '5px',
+                                textAlign: 'center',
+                                fontFamily: '"copperplate", "copperplate gothic light", fantasy'
+                            }}>
+                                {question.option2}</button>
                         </div>
                         <button id='deletevote' onClick={() => deletevote(question._id)}>Delete Vote</button>
                         <button id='showvotes' onClick={() => toggleShowVotes(question._id)}>Votes</button>

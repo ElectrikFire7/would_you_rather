@@ -17,6 +17,10 @@ const CreateQuestion = () => {
     const [option2, setOption2] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [cerror, setCerror] = useState('');
+    const [image1, setImage1] = useState(null);
+    const [image2, setImage2] = useState(null);
+    const [preview1, setPreview1] = useState(null);
+    const [preview2, setPreview2] = useState(null);
 
     useEffect(() => {
         if (username === "non-user") {
@@ -28,27 +32,56 @@ const CreateQuestion = () => {
         navigate('/home', {state: { userData: location.state.userData }});
     }
 
-    const createQuestion = () => {
-        setIsLoading(true);
+    //handle image being uploaded in input
+    const handleImageChange = (e, inputType) => {
+        const file = e.target.files[0];
+        if (file) {
+            const previewUrl = URL.createObjectURL(file);
+            if (inputType === 'input1') {
+                setImage1(file);
+                setPreview1(previewUrl);
+            } else if (inputType === 'input2') {
+                setImage2(file);
+                setPreview2(previewUrl);
+            }
+        }
+    };
 
-        axios.post('https://would-you-rather-ku9r.onrender.com/question/newQuestion', {
-            description,
-            option1,
-            option2,
-            anonymous,
-            username,
-            user_id: user_ID
-        })
-        .then(() => {
+    const createQuestion = async () => {
+        setIsLoading(true);
+        
+        try {
+            const formData = new FormData();
+            formData.append('description', description);
+            formData.append('option1', option1 || '');
+            formData.append('option2', option2 || '');
+            formData.append('image', image1);
+            formData.append('image', image2);
+            formData.append('user_id', user_ID);
+            formData.append('username', username);
+            formData.append('anonymous', anonymous);
+
+            const response = await axios.post('https://would-you-rather-ku9r.onrender.com/createQuestion/', formData);
+
+            console.log('Question created:', response.data);
+            // Reset form after successful submission
+            setDescription('');
+            setOption1('');
+            setOption2('');
+            setImage1(null);
+            setImage2(null);
+            setPreview1(null);
+            setPreview2(null);
+            setAnonymous(false);
+            alert('Question created successfully!');
             setIsLoading(false);
             travelHome();
-        })
-        .catch((error) => {
-            console.log(error.message);
+        } catch (error) {
+            setCerror(error.message);
             setIsLoading(false);
-            setCerror('fill all 3 fields');
-        });
-    }
+            alert('Failed to create question');
+        }
+    };
 
     return(
         <>
@@ -70,6 +103,24 @@ const CreateQuestion = () => {
                 <div>
                     <label id='label'>Option 2:</label>
                     <input id='input' type='text' value={option2} onChange={(e) => setOption2(e.target.value)} />
+                </div>
+                <div>
+                    <label id='label'>Upload Image 1:</label>
+                    <input
+                        id='input'
+                        type="file"
+                        onChange={(e) => handleImageChange(e, 'input1')}
+                    />
+                    {preview1 && <img src={preview1} alt='Preview 1' style={{ width: '100px', height: '100px', margin: '10px', marginLeft: '15px' }} />}
+                </div>
+                <div>
+                    <label id='label'>Upload Image 2:</label>
+                    <input
+                        id='input'
+                        type="file"
+                        onChange={(e) => handleImageChange(e, 'input2')}
+                    />
+                    {preview2 && <img src={preview2} alt='Preview 2' style={{ width: '100px', height: '100px', margin: '10px', marginLeft: '15px' }} />}
                 </div>
                 <div>
                     <label id='label'>Anonymous:</label>
@@ -98,6 +149,22 @@ const CreateQuestion = () => {
                 <div>
                     <label id='label'>Option 2:</label>
                     <input id='input' type='text' value={option2} onChange={(e) => setOption2(e.target.value)} />
+                </div>
+                <div>
+                    <label>Upload Image 1:</label>
+                    <input
+                        type="file"
+                        onChange={(e) => handleImageChange(e, 'input1')}
+                    />
+                    {preview1 && <img src={preview1} alt='Preview 1' style={{ width: '100px', height: '100px', margin: '10px', marginLeft: '15px' }} />}
+                </div>
+                <div>
+                    <label>Upload Image 2:</label>
+                    <input
+                        type="file"
+                        onChange={(e) => handleImageChange(e, 'input2')}
+                    />
+                    {preview2 && <img src={preview2} alt='Preview 2' style={{ width: '100px', height: '100px', margin: '10px', marginLeft: '15px' }} />}
                 </div>
                 <div>
                     <label id='label'>Anonymous:</label>

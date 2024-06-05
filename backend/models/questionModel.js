@@ -38,7 +38,12 @@ const questionSchema = mongoose.Schema(
         image2:{
             type: String,
         }        
+    },
+    {
+        timestamps: true
     }
-)
+);
+
+questionSchema.index({ createdAt: -1 });
 
 export const Question = mongoose.model("Question", questionSchema);

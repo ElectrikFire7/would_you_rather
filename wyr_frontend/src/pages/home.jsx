@@ -357,6 +357,9 @@ const Home = () => {
                                 {question.option2}</button>
                         </div>
                         <button id='deletevote' onClick={() => deletevote(question._id)}>Delete Vote</button>
+                        {user_ID === question.owner.toString() && (
+                            <button id='deletevote' onClick={() => deleteQuestion(question._id, user_ID)}>Delete Question</button>)
+                        }
                         <button id='showvotes' onClick={() => toggleShowVotes(question._id)}>Votes</button>
                         {showVotes === question._id && (
                             <div id='votes'>

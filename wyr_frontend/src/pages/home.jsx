@@ -17,6 +17,7 @@ const Home = () => {
 
     const [questions, setQuestions] = useState([]);
     const [showVotes, setShowVotes] = useState(null);
+    const [ownerColors, setOwnerColors] = useState({});
     const [tab, setTab] = useState('random');
 
     useEffect(() => {
@@ -34,6 +35,12 @@ const Home = () => {
             .then( response => {
                 console.log('Random questions fetched', response.data);
                 setQuestions(response.data);
+
+                const newOwnerColors = {};
+                response.data.forEach(question => {
+                    newOwnerColors[question._id] = getRandomColor();
+                });
+                setOwnerColors(newOwnerColors);
             })
             .catch( error => {
                 console.error("error: ", error);
@@ -86,29 +93,38 @@ const Home = () => {
     }
 
     const vote = (question_id, option) => {
-        axios.put('https://would-you-rather-ku9r.onrender.com/vote/',{
-                question_id: question_id,
-                user_id: user_ID,
-                username: username,
-                option: option,
+        axios.put('https://would-you-rather-ku9r.onrender.com/vote/', {
+            question_id: question_id,
+            user_id: user_ID,
+            username: username,
+            option: option,
         })
-            .then( response => {
-                console.log('Vote updated');
-                if (tab === 'random') {
-                    fetchRandom();
-                } 
-                else if (tab === 'latest'){
-                    fetchLatest();
+        .then(response => {
+            console.log('Vote updated');
+
+            setQuestions(prevQuestions => prevQuestions.map(question => {
+                if (question._id === question_id) {
+                    if (option === 1) {
+                        if (question.voted2.includes(username)) {
+                            question.voted2 = question.voted2.filter(user => user !== username);
+                        }
+                        if (!question.voted1.includes(username)) {
+                            question.voted1.push(username);
+                        }
+                    } else if (option === 2) {
+                        if (question.voted1.includes(username)) {
+                            question.voted1 = question.voted1.filter(user => user !== username);
+                        }
+                        if (!question.voted2.includes(username)) {
+                            question.voted2.push(username);
+                        }
+                    }
                 }
-                else if(tab === 'voted'){
-                    fetchVotedQuestions();
-                }
-                else{
-                    fetchMyQuestions();
-                }
+                return question;
+            }));
         })
-            .catch( error => {
-                console.error("error: ", error);
+        .catch(error => {
+            console.error("error: ", error);
         });
     }
 
@@ -122,18 +138,13 @@ const Home = () => {
         })
             .then(response => {
                 console.log('Vote updated');
-                if (tab === 'random') {
-                    fetchRandom();
-                } 
-                else if (tab === 'latest'){
-                    fetchLatest();
-                }
-                else if(tab === 'voted'){
-                    fetchVotedQuestions();
-                }
-                else{
-                    fetchMyQuestions();
-                }
+                setQuestions(prevQuestions => prevQuestions.map(question => {
+                    if (question._id === question_id) {
+                        question.voted1 = question.voted1.filter(user => user !== username);
+                        question.voted2 = question.voted2.filter(user => user !== username);
+                    }
+                    return question;
+                }));
             })
             .catch(error => {
                 console.error("error: ", error);
@@ -183,7 +194,7 @@ const Home = () => {
         <><BrowserView>
         <div id='maindiv'>
             <div id='tabs'>
-                <button className={`tab-button ${tab === 'random' ? 'active' : ''}`} onClick={() => setTab('random')} disabled={tab === 'random'}><FontAwesomeIcon icon={faGlobe} /> Random Cardss</button>
+                <button className={`tab-button ${tab === 'random' ? 'active' : ''}`} onClick={() => setTab('random')} disabled={tab === 'random'}><FontAwesomeIcon icon={faGlobe} /> Random Cards</button>
                 <button className={`tab-button ${tab === 'latest' ? 'active' : ''}`} onClick={() => setTab('latest')} disabled={tab === 'latest'}><FontAwesomeIcon icon={faClock} /> Latest cards</button>
                 <button className={`tab-button ${tab === 'voted' ? 'active' : ''}`} onClick={() => setTab('voted')} disabled={tab === 'voted'}><FontAwesomeIcon icon={faCheck} /> Voted Cards</button>
                 <button className={`tab-button ${tab === 'myquestions' ? 'active' : ''}`} onClick={() => setTab('myquestions')} disabled={tab === 'myquestions'}><FontAwesomeIcon icon={faUser} /> My Cards</button>
@@ -194,7 +205,7 @@ const Home = () => {
             <ul>
                 {questions.map(question => (
                     <li id='listitem' key={question._id} className='question-wrapper'>
-                        <p id='owner' style={{ color: getRandomColor() }}>{question.anonymous ? "Anonymous-Hippopotamus" : question.ownerUsername}</p>
+                        <p id='owner' style={{ color: ownerColors[question._id] }}>{question.anonymous ? "Anonymous-Hippopotamus" : question.ownerUsername}</p>
                         <p id='question'>{question.description}</p>
                         <div id='buttoncontainer'>
                             <button id='button' onClick={() => vote(question._id, 1)} style={{
@@ -205,7 +216,7 @@ const Home = () => {
                                 height: question.image1 ? '250px' : 'auto',
                                 color: question.image1 ? 'transparent' : 'white',
                                 backgroundColor: question.image1 ? 'transparent' : 'black',
-                                border: '3px solid rgb(255, 255, 255)',
+                                border: question.voted1.includes(username) ? '3px solid green': '3px solid rgb(255, 255, 255)',
                                 borderRadius: '15px',
                                 margin: '10px',
                                 padding: '5px',
@@ -221,7 +232,7 @@ const Home = () => {
                                 height: question.image2 ? '250px' : 'auto',
                                 color: question.image2 ? 'transparent' : 'white',
                                 backgroundColor: question.image2 ? 'transparent' : 'black',
-                                border: '3px solid rgb(255, 255, 255)',
+                                border: question.voted2.includes(username) ? '3px solid green': '3px solid rgb(255, 255, 255)',
                                 borderRadius: '15px',
                                 margin: '10px',
                                 padding: '10px',
@@ -279,11 +290,11 @@ const Home = () => {
                                 backgroundImage: question.image1 ? `url(data:image/png;base64,${question.image1})` : 'none',
                                 backgroundSize: 'cover',
                                 backgroundPosition: 'center',
-                                width: question.image1 ? '150px' : '600px',
-                                height: question.image1 ? '150px' : 'auto',
+                                width: question.image1 ? '125px' : '600px',
+                                height: question.image1 ? '125px' : 'auto',
                                 color: question.image1 ? 'transparent' : 'white',
                                 backgroundColor: question.image1 ? 'transparent' : 'black',
-                                border: '3px solid rgb(255, 255, 255)',
+                                border: question.voted1.includes(username) ? '3px solid green': '3px solid rgb(255, 255, 255)',
                                 borderRadius: '15px',
                                 margin: '10px',
                                 padding: '10px',
@@ -295,11 +306,11 @@ const Home = () => {
                                 backgroundImage: question.image2 ? `url(data:image/png;base64,${question.image2})` : 'none',
                                 backgroundSize: 'cover',
                                 backgroundPosition: 'center',
-                                width: question.image2 ? '150px' : '600px',
-                                height: question.image2 ? '150px' : 'auto',
+                                width: question.image2 ? '125px' : '600px',
+                                height: question.image2 ? '125px' : 'auto',
                                 color: question.image2 ? 'transparent' : 'white',
                                 backgroundColor: question.image2 ? 'transparent' : 'black',
-                                border: '3px solid rgb(255, 255, 255)',
+                                border: question.voted2.includes(username) ? '3px solid green': '3px solid rgb(255, 255, 255)',
                                 borderRadius: '15px',
                                 margin: '10px',
                                 padding: '10px',

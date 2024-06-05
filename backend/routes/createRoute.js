@@ -37,7 +37,7 @@ router.post("/", async (request, response) => {
             }
 
             if (request.body.description === '' || ((request.body.option1 === '' || request.body.option2 === '') && request.files.length !== 2)) {
-                return response.status(400).send("Fill required fields");
+                return response.status(400).send("Need description and, either two options or two images");
             }
 
             const fileContents = [];

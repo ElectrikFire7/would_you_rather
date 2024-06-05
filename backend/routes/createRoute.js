@@ -81,4 +81,51 @@ router.post("/", async (request, response) => {
     }
 });
 
+router.delete("/", async (request, response) => {
+    try{
+        const { question_id, user_id } = request.body;
+
+        const question = await Question.findById(question_id);
+
+        if(!question){
+            return response.status(404).send("Question not found");
+        }
+
+        if(question.owner.toString() !== user_id){
+            return response.status(401).send("Unauthorized");
+        }
+
+        const user = await User.findById(user_id);
+        user.questions.pull(question_id);
+        await user.save();
+
+        for (const username of question.voted1) {
+            const user = await User.findOne({ username });
+            if (user) {
+                user.votedQuestions.pull(question_id);
+                await user.save();
+            } else {
+                console.warn(`User with username ${username} not found`);
+            }
+        }
+
+        for (const username of question.voted2) {
+            const user = await User.findOne({ username });
+            if (user) {
+                user.votedQuestions.pull(question_id);
+                await user.save();
+            } else {
+                console.warn(`User with username ${username} not found`);
+            }
+        }
+
+        await Question.deleteOne({ _id: question_id });
+
+        return response.status(200).send("Question deleted successfully");
+    }catch(error){
+        console.error("Error:", error);
+        response.status(500).send("Server error");
+    }
+});
+
 export default router;

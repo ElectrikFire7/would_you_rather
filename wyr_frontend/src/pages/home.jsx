@@ -153,7 +153,7 @@ const Home = () => {
                 user_id: user_ID,
                 username: username
             }
-        })
+            })
             .then(response => {
                 console.log('Vote updated');
                 setQuestions(prevQuestions => prevQuestions.map(question => {
@@ -167,6 +167,22 @@ const Home = () => {
             .catch(error => {
                 console.error("error: ", error);
             });
+    }
+
+    const deleteQuestion = (question_id, user_id) => {
+        axios.delete('https://would-you-rather-ku9r.onrender.com/createQuestion/',{
+            data: {
+                question_id: question_id,
+                user_id: user_id
+            }
+        })
+            .then(response => {
+                console.log('Question deleted');
+                setQuestions(prevQuestions => prevQuestions.filter(question => question._id !== question_id));
+            })
+            .catch(error => {
+                console.error("error: ", error);
+            })
     }
 
     useEffect(() => {
@@ -260,6 +276,9 @@ const Home = () => {
                                 {question.option2}</button>
                         </div>
                         <button id='deletevote' onClick={() => deletevote(question._id)}>Delete Vote</button>
+                        {user_ID === question.owner.toString() && (
+                            <button id='deletevote' onClick={() => deleteQuestion(question._id, user_ID)}>Delete Question</button>)
+                        }
                         <button id='showvotes' onClick={() => toggleShowVotes(question._id)}>Votes</button>
                         {showVotes === question._id && (
                             <div id='votes'>

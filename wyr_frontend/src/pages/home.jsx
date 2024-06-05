@@ -56,6 +56,12 @@ const Home = () => {
             .then( response => {
                 console.log('Latest questions fetched', response.data);
                 setQuestions(response.data);
+
+                const newOwnerColors = {};
+                response.data.forEach(question => {
+                    newOwnerColors[question._id] = getRandomColor();
+                });
+                setOwnerColors(newOwnerColors);
             })
             .catch( error => {
                 console.error("error: ", error);
@@ -71,6 +77,12 @@ const Home = () => {
             .then( response => {
                 console.log('My questions fetched', response.data);
                 setQuestions(response.data);
+
+                const newOwnerColors = {};
+                response.data.forEach(question => {
+                    newOwnerColors[question._id] = getRandomColor();
+                });
+                setOwnerColors(newOwnerColors);
             })
             .catch( error => {
                 console.error("error: ", error);
@@ -86,6 +98,12 @@ const Home = () => {
             .then( response => {
                 console.log('Voted questions fetched', response.data);
                 setQuestions(response.data);
+
+                const newOwnerColors = {};
+                response.data.forEach(question => {
+                    newOwnerColors[question._id] = getRandomColor();
+                });
+                setOwnerColors(newOwnerColors);
             })
             .catch( error => {
                 console.error("error: ", error);
@@ -194,10 +212,10 @@ const Home = () => {
         <><BrowserView>
         <div id='maindiv'>
             <div id='tabs'>
-                <button className={`tab-button ${tab === 'random' ? 'active' : ''}`} onClick={() => setTab('random')} disabled={tab === 'random'}><FontAwesomeIcon icon={faGlobe} /> Random Cards</button>
-                <button className={`tab-button ${tab === 'latest' ? 'active' : ''}`} onClick={() => setTab('latest')} disabled={tab === 'latest'}><FontAwesomeIcon icon={faClock} /> Latest cards</button>
-                <button className={`tab-button ${tab === 'voted' ? 'active' : ''}`} onClick={() => setTab('voted')} disabled={tab === 'voted'}><FontAwesomeIcon icon={faCheck} /> Voted Cards</button>
-                <button className={`tab-button ${tab === 'myquestions' ? 'active' : ''}`} onClick={() => setTab('myquestions')} disabled={tab === 'myquestions'}><FontAwesomeIcon icon={faUser} /> My Cards</button>
+                <button className={`tab-button ${tab === 'random' ? 'active' : ''}`} onClick={() => setTab('random')} disabled={tab === 'random'}><FontAwesomeIcon icon={faGlobe} />  Random Cards</button>
+                <button className={`tab-button ${tab === 'latest' ? 'active' : ''}`} onClick={() => setTab('latest')} disabled={tab === 'latest'}><FontAwesomeIcon icon={faClock} />  Latest cards</button>
+                <button className={`tab-button ${tab === 'voted' ? 'active' : ''}`} onClick={() => setTab('voted')} disabled={tab === 'voted'}><FontAwesomeIcon icon={faCheck} />  Voted Cards</button>
+                <button className={`tab-button ${tab === 'myquestions' ? 'active' : ''}`} onClick={() => setTab('myquestions')} disabled={tab === 'myquestions'}><FontAwesomeIcon icon={faUser} />  My Cards</button>
                 <button className={`tab-button`} onClick={travelCreateQuestion}>Create Card</button>
             </div>
             <div id='questioncontainer'>

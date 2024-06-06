@@ -123,6 +123,26 @@ const Leaderboard = () => {
                                     ))}
                                 </tbody>
                             </table>
+                            <div className='scrollable-table'>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Rank</th>
+                                        <th>Username</th>
+                                        <th>Score</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {
+                                        <tr>
+                                            <td>{userRank}</td>
+                                            <td>{username}</td>
+                                            <td>{userPoints}</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

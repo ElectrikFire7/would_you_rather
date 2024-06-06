@@ -71,6 +71,7 @@
     left: 20px;
     display: flex;
     justify-content: space-between;
+    width: calc(100% - 40px);
 }
 
 .mobile-tab-button {

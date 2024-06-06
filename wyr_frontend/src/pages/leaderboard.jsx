@@ -3,8 +3,6 @@ import axios from "axios";
 import { useLocation, useNavigate } from 'react-router-dom'; 
 import {BrowserView, MobileView} from 'react-device-detect';
 import '../assets/leaderboard.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faRankingStar } from '@fortawesome/free-solid-svg-icons';
 
 const Leaderboard = () => {
     const navigate = useNavigate();
@@ -28,7 +26,7 @@ const Leaderboard = () => {
     }
 
     const fetchusers = () => {
-        axios.get('http://localhost:443/leaderBoard/')
+        axios.get('https://would-you-rather-ku9r.onrender.com/leaderBoard/')
         .then((response) => {
             setLeaderboard(response.data);
             const currentUserIndex = response.data.findIndex(user => user._id === user_ID);

@@ -70,6 +70,15 @@
     left: 20px;
 }
 
+.mobile-tab-button {
+    background-color: rgba(18, 18, 18, 0.882);
+    color: white;
+    padding: 10px;
+    margin-right: 10px;
+    cursor: pointer;
+    border-radius: 10px;
+}
+
 .tab-button {
     background-color: rgba(18, 18, 18, 0.882);
     color: white;

@@ -11,7 +11,6 @@ router.put("/", async (request, response) => {
 
         const question = await Question.findById(question_id);
         const rpUser = await User.findById(question.owner);
-        console.log(rpUser);
 
         if(!question){
             return response.status(404).send("Question not found");

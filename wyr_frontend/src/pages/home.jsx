@@ -318,13 +318,13 @@ const Home = () => {
         <MobileView>
         <div id='maindiv'>
             <div id='tabs'>
-                <button className={`tab-button ${tab === 'random' ? 'active' : ''}`} onClick={() => setTab('random')} disabled={tab === 'random'} ><FontAwesomeIcon icon={faGlobe} /></button>
-                <button className={`tab-button ${tab === 'latest' ? 'active' : ''}`} onClick={() => setTab('latest')} disabled={tab === 'latest'}><FontAwesomeIcon icon={faClock} /></button>
-                <button className={`tab-button ${tab === 'voted' ? 'active' : ''}`} onClick={() => setTab('voted')} disabled={tab === 'voted'}><FontAwesomeIcon icon={faCheck} /></button>
-                <button className={`tab-button ${tab === 'myquestions' ? 'active' : ''}`} onClick={() => setTab('myquestions')} disabled={tab === 'myquestions'}><FontAwesomeIcon icon={faUser} /></button>
-                <button className={`tab-button`} onClick={travelLeaderBoard}><FontAwesomeIcon icon={faRankingStar} /></button>
-                <button className={`tab-button`} onClick={travelSearchByName}><FontAwesomeIcon icon={faSearch} /></button>
-                <button className={`tab-button`} onClick={travelCreateQuestion}>CQ</button>
+                <button className={`mobile-tab-button ${tab === 'random' ? 'active' : ''}`} onClick={() => setTab('random')} disabled={tab === 'random'} ><FontAwesomeIcon icon={faGlobe} /></button>
+                <button className={`mobile-tab-button ${tab === 'latest' ? 'active' : ''}`} onClick={() => setTab('latest')} disabled={tab === 'latest'}><FontAwesomeIcon icon={faClock} /></button>
+                <button className={`mobile-tab-button ${tab === 'voted' ? 'active' : ''}`} onClick={() => setTab('voted')} disabled={tab === 'voted'}><FontAwesomeIcon icon={faCheck} /></button>
+                <button className={`mobile-tab-button ${tab === 'myquestions' ? 'active' : ''}`} onClick={() => setTab('myquestions')} disabled={tab === 'myquestions'}><FontAwesomeIcon icon={faUser} /></button>
+                <button className={`mobile-tab-button`} onClick={travelLeaderBoard}><FontAwesomeIcon icon={faRankingStar} /></button>
+                <button className={`mobile-tab-button`} onClick={travelSearchByName}><FontAwesomeIcon icon={faSearch} /></button>
+                <button className={`mobile-tab-button`} onClick={travelCreateQuestion}>CQ</button>
             </div>
             <div id='questioncontainer'>
             <p id='question'>{questions.length === 0 ? 'No questions in this category for you' : ''}</p>

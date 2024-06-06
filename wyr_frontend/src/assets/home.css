@@ -193,3 +193,12 @@
 #error{
     color: white;
 }
+
+#searchbutton{
+    /* border-radsius: 50%; */
+    background-color: black;
+    color: white;
+    border: 3px solid rgb(255, 255, 255);
+    padding : 5px;
+    margin: 5px;
+}

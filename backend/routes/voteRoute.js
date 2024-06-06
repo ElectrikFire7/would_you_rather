@@ -10,6 +10,8 @@ router.put("/", async (request, response) => {
         const { question_id, option, user_id, username } = request.body;
 
         const question = await Question.findById(question_id);
+        const rpUser = await User.findById(question.owner);
+        console.log(rpUser);
 
         if(!question){
             return response.status(404).send("Question not found");
@@ -46,6 +48,8 @@ router.put("/", async (request, response) => {
         if(!alreadyVoted){
             const user = await User.findById(user_id);
             user.votedQuestions.push(question_id);
+            rpUser.rVotePoints += 2;
+            await rpUser.save();
             await user.save();
         }
 
@@ -63,6 +67,8 @@ router.delete("/", async (request, response) => {
         const { question_id, user_id, username } = request.body;
         const question = await Question.findById(question_id);
 
+        const rpUser = await User.findById(question.owner);
+
         if(!question){
             return response.status(404).send("Question not found");
         }
@@ -78,7 +84,9 @@ router.delete("/", async (request, response) => {
         }
 
         await question.save();
+        rpUser.rVotePoints -= 2;
 
+        await rpUser.save();
         const user = await User.findById(user_id);
         user.votedQuestions.pull(question_id);
         await user.save();

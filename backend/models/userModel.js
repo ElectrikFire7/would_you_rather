@@ -10,6 +10,10 @@ const userSchema = mongoose.Schema(
             type: String,
             required: true,
         },
+        rVotePoints:{
+            type: Number,
+            default: 0
+        },
         questions: [{
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Question'

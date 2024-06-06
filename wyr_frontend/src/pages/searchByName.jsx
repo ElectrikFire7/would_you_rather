@@ -4,11 +4,11 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import '../assets/home.css' 
 import {BrowserView, MobileView} from 'react-device-detect';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch, faGlobe, faClock, faCheck, faUser, faRankingStar } from '@fortawesome/free-solid-svg-icons';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 
 
-const Home = () => {
+const SearchByName = () => {
     const navigate = useNavigate();
     const location = useLocation();
 
@@ -18,7 +18,7 @@ const Home = () => {
     const [questions, setQuestions] = useState([]);
     const [showVotes, setShowVotes] = useState(null);
     const [ownerColors, setOwnerColors] = useState({});
-    const [tab, setTab] = useState('random');
+    const [name, setName] = useState('');
 
     useEffect(() => {
         if (username === "non-user") {
@@ -26,92 +26,27 @@ const Home = () => {
         }
     }, [username, navigate]);
 
-    const fetchRandom = () => {
-        axios.get('https://would-you-rather-ku9r.onrender.com/question/randomquestions', {
+    const getUserQuestions = () => {
+        axios.get('https://would-you-rather-ku9r.onrender.com/searchByName/', {
             params: {
-                user_id: user_ID,
-            },
+                username: name
+            }
         })
-            .then( response => {
-                console.log('Random questions fetched', response.data);
+            .then(response => {
+                console.log(response.data);
                 setQuestions(response.data);
-
-                const newOwnerColors = {};
-                response.data.forEach(question => {
-                    newOwnerColors[question._id] = getRandomColor();
-                });
-                setOwnerColors(newOwnerColors);
+                setOwnerColors(response.data.reduce((acc, question) => {
+                    acc[question._id] = getRandomColor();
+                    return acc;
+                }, {}));
             })
-            .catch( error => {
-                console.error("error: ", error);
-            });
-    }
-
-    const fetchLatest = () => {
-        axios.get('https://would-you-rather-ku9r.onrender.com/question/latestsquestions', {
-            params: {
-                user_id: user_ID,
-            },
-        })
-            .then( response => {
-                console.log('Latest questions fetched', response.data);
-                setQuestions(response.data);
-
-                const newOwnerColors = {};
-                response.data.forEach(question => {
-                    newOwnerColors[question._id] = getRandomColor();
-                });
-                setOwnerColors(newOwnerColors);
-            })
-            .catch( error => {
-                console.error("error: ", error);
-            });
-    }
-
-    const fetchMyQuestions = () => {
-        axios.get('https://would-you-rather-ku9r.onrender.com/question/myquestions', {
-            params: {
-                user_id: user_ID,
-            },
-        })
-            .then( response => {
-                console.log('My questions fetched', response.data);
-                setQuestions(response.data);
-
-                const newOwnerColors = {};
-                response.data.forEach(question => {
-                    newOwnerColors[question._id] = getRandomColor();
-                });
-                setOwnerColors(newOwnerColors);
-            })
-            .catch( error => {
-                console.error("error: ", error);
-            });
-    }
-
-    const fetchVotedQuestions = () => {
-        axios.get('https://would-you-rather-ku9r.onrender.com/question/votedquestions', {
-            params: {
-                user_id: user_ID,
-            },
-        })
-            .then( response => {
-                console.log('Voted questions fetched', response.data);
-                setQuestions(response.data);
-
-                const newOwnerColors = {};
-                response.data.forEach(question => {
-                    newOwnerColors[question._id] = getRandomColor();
-                });
-                setOwnerColors(newOwnerColors);
-            })
-            .catch( error => {
+            .catch(error => {
                 console.error("error: ", error);
             });
     }
 
     const vote = (question_id, option) => {
-        axios.put('http://localhost:443/vote/', {
+        axios.put('https://would-you-rather-ku9r.onrender.com/vote/', {
             question_id: question_id,
             user_id: user_ID,
             username: username,
@@ -147,7 +82,7 @@ const Home = () => {
     }
 
     const deletevote = (question_id) => {
-        axios.delete('http://localhost:443/vote/',{
+        axios.delete('https://would-you-rather-ku9r.onrender.com/vote/',{
             data: {
                 question_id: question_id,
                 user_id: user_ID,
@@ -185,21 +120,6 @@ const Home = () => {
             })
     }
 
-    useEffect(() => {
-        if (tab === 'random') {
-            fetchRandom();
-        } 
-        else if (tab === 'latest'){
-            fetchLatest();
-        }
-        else if(tab === 'voted'){
-            fetchVotedQuestions();
-        }
-        else{
-            fetchMyQuestions();
-        }
-    }, [tab, username, user_ID]);
-
     const toggleShowVotes = (question_id) => {
         if(showVotes === null){
             setShowVotes(question_id);
@@ -223,28 +143,21 @@ const Home = () => {
         navigate('/createQuestion', {state: { userData: location.state.userData }});
     }
 
-    const travelSearchByName = () => {
-        navigate('/searchByName', {state: { userData: location.state.userData }});
-    }
-
-    const travelLeaderBoard = () => {
-        navigate('/leaderboard', {state: { userData: location.state.userData }});
+    const travelHome = () => {
+        navigate('/home', {state: { userData: location.state.userData }});
     }
 
     return(
         <><BrowserView>
         <div id='maindiv'>
             <div id='tabs'>
-                <button className={`tab-button ${tab === 'random' ? 'active' : ''}`} onClick={() => setTab('random')} disabled={tab === 'random'}><FontAwesomeIcon icon={faGlobe} />  Random Cards</button>
-                <button className={`tab-button ${tab === 'latest' ? 'active' : ''}`} onClick={() => setTab('latest')} disabled={tab === 'latest'}><FontAwesomeIcon icon={faClock} />  Latest cards</button>
-                <button className={`tab-button ${tab === 'voted' ? 'active' : ''}`} onClick={() => setTab('voted')} disabled={tab === 'voted'}><FontAwesomeIcon icon={faCheck} />  Voted Cards</button>
-                <button className={`tab-button ${tab === 'myquestions' ? 'active' : ''}`} onClick={() => setTab('myquestions')} disabled={tab === 'myquestions'}><FontAwesomeIcon icon={faUser} />  My Cards</button>
-                <button className={`tab-button`} onClick={travelLeaderBoard}><FontAwesomeIcon icon={faRankingStar} />  Leaderboard</button>
-                <button className={`tab-button`} onClick={travelSearchByName}><FontAwesomeIcon icon={faSearch} />  Search by Name</button>
+                <button className={`tab-button`} onClick={travelHome} >Home</button>
                 <button className={`tab-button`} onClick={travelCreateQuestion}>Create Card</button>
             </div>
             <div id='questioncontainer'>
-            <p id='question'>{questions.length === 0 ? 'No questions in this category for you' : ''}</p>
+            <input id='input' type='text' value={name} onChange={(e) => setName(e.target.value)} />
+            <button id='searchbutton' onClick={getUserQuestions}><FontAwesomeIcon icon={faSearch} /></button>
+            <p id='question'>{questions.length === 0 ? 'No questions by this user' : ''}</p>
             <ul>
                 {questions.map(question => (
                     <li id='listitem' key={question._id} className='question-wrapper'>
@@ -318,16 +231,13 @@ const Home = () => {
         <MobileView>
         <div id='maindiv'>
             <div id='tabs'>
-                <button className={`tab-button ${tab === 'random' ? 'active' : ''}`} onClick={() => setTab('random')} disabled={tab === 'random'} ><FontAwesomeIcon icon={faGlobe} /></button>
-                <button className={`tab-button ${tab === 'latest' ? 'active' : ''}`} onClick={() => setTab('latest')} disabled={tab === 'latest'}><FontAwesomeIcon icon={faClock} /></button>
-                <button className={`tab-button ${tab === 'voted' ? 'active' : ''}`} onClick={() => setTab('voted')} disabled={tab === 'voted'}><FontAwesomeIcon icon={faCheck} /></button>
-                <button className={`tab-button ${tab === 'myquestions' ? 'active' : ''}`} onClick={() => setTab('myquestions')} disabled={tab === 'myquestions'}><FontAwesomeIcon icon={faUser} /></button>
-                <button className={`tab-button`} onClick={travelLeaderBoard}><FontAwesomeIcon icon={faRankingStar} /></button>
-                <button className={`tab-button`} onClick={travelSearchByName}><FontAwesomeIcon icon={faSearch} /></button>
+                <button className={`tab-button`} onClick={travelHome} >Home</button>
                 <button className={`tab-button`} onClick={travelCreateQuestion}>CQ</button>
             </div>
             <div id='questioncontainer'>
-            <p id='question'>{questions.length === 0 ? 'No questions in this category for you' : ''}</p>
+            <input id='input' type='text' value={name} onChange={(e) => setName(e.target.value)} />
+            <button id='searchbutton' onClick={getUserQuestions}><FontAwesomeIcon icon={faSearch} /></button>
+            <p id='question'>{questions.length === 0 ? 'No questions by this user' : ''}</p>
             <ul>
                 {questions.map(question => (
                     <li id='listitem' key={question._id} className='question-wrapper'>
@@ -402,4 +312,4 @@ const Home = () => {
     )
 }
 
-export default Home;
+export default SearchByName;

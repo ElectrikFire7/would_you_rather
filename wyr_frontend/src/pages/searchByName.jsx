@@ -238,6 +238,7 @@ const SearchByName = () => {
             <div id='questioncontainer'>
             <input id='input' type='text' value={name} onChange={(e) => setName(e.target.value)} />
             <button id='searchbutton' onClick={getUserQuestions}><FontAwesomeIcon icon={faSearch} /></button>
+            <p style={{color: "white", marginLeft: "15px"}}> {questions.length} </p>
             <p id='question'>{questions.length === 0 ? 'No questions by this user' : ''}</p>
             <ul>
                 {questions.map(question => (

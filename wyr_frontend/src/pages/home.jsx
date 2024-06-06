@@ -111,7 +111,7 @@ const Home = () => {
     }
 
     const vote = (question_id, option) => {
-        axios.put('http://localhost:443/vote/', {
+        axios.put('https://would-you-rather-ku9r.onrender.com/vote/', {
             question_id: question_id,
             user_id: user_ID,
             username: username,
@@ -147,7 +147,7 @@ const Home = () => {
     }
 
     const deletevote = (question_id) => {
-        axios.delete('http://localhost:443/vote/',{
+        axios.delete('https://would-you-rather-ku9r.onrender.com/vote/',{
             data: {
                 question_id: question_id,
                 user_id: user_ID,

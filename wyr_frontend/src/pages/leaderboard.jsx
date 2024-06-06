@@ -123,7 +123,8 @@ const Leaderboard = () => {
                                     ))}
                                 </tbody>
                             </table>
-                            <div className='scrollable-table'>
+                        </div>
+                        <div className='scrollable-table'>
                             <table>
                                 <thead>
                                     <tr>
@@ -141,8 +142,7 @@ const Leaderboard = () => {
                                         </tr>
                                     }
                                 </tbody>
-                                </table>
-                            </div>
+                            </table>
                         </div>
                     </div>
                 </div>

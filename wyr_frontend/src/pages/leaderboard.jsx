@@ -117,7 +117,7 @@ const Leaderboard = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {leaderboard.slice(0, 8).map((user, index) => (
+                                    {leaderboard.map((user, index) => (
                                         <tr key={index}>
                                             <td>{index + 1}</td>
                                             <td>{user.username}</td>

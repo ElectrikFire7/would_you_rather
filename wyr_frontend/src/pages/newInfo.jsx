@@ -25,6 +25,8 @@ const NewInfo = () => {
             <p5 id='label'>Your created Cards</p5>
             <h6 className='tab-button'>Create Card</h6>
             <p6 id='label'>Create your own card and see other's response</p6>
+            <p7 id='label'>Choose a side and gain point</p7>
+            <p8 id='label'>Create a difference in opinion to get more points</p8>
             <button onClick={agree} id='createQuestionButton'>Agree</button>
         </div>
     )

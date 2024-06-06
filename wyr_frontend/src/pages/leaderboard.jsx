@@ -64,7 +64,7 @@ const Leaderboard = () => {
                                 </thead>
 
                                 <tbody>
-                                    {leaderboard.slice(0, 8).map((user, index) => (
+                                    {leaderboard.map((user, index) => (
                                         <tr key={index}>
                                             <td>{index + 1}</td>
                                             <td>{user.username}</td>
@@ -94,6 +94,9 @@ const Leaderboard = () => {
                                 </tbody>
                             </table>
                         </div>
+                        <p> - Each vote produces 1 point</p>
+                        <p> - Creating a question gives you 7 points</p>
+                        <p> - Votes on your question give you 2 points</p>
                     </div>
                 </div>
             </BrowserView>
@@ -144,6 +147,9 @@ const Leaderboard = () => {
                                 </tbody>
                             </table>
                         </div>
+                        <p> - Each vote produces 1 point</p>
+                        <p> - Creating a question gives you 7 points</p>
+                        <p> - Votes on your question give you 2 points</p>
                     </div>
                 </div>
             </MobileView>

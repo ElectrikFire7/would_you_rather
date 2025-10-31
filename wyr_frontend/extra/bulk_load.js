@@ -5,16 +5,20 @@ const user_id = '665b6c0d6f4ff4ef502a8083';
 const username = 'General Kenobi';
 const anonymous = false;
 const description = 'Would you rather';
+const image1 = null;
+const image2 = null;
 
 const createQuestion = (option1, option2) => {
-    axios.post('https://would-you-rather-ku9r.onrender.com/question/newQuestion', {
-        description,
-        option1,
-        option2,
-        anonymous,
-        username,
-        user_id
-    })
+  const formData = new FormData();
+  formData.append('description', description);
+  formData.append('option1', option1 || '');
+  formData.append('option2', option2 || '');
+  formData.append('image', image1);
+  formData.append('image', image2);
+  formData.append('user_id', user_id);
+  formData.append('username', username);
+  formData.append('anonymous', anonymous);  
+  axios.post('http://localhost:443/createQuestion', formData)
     .catch((error) => {
         console.log(error.message);
     });
@@ -34,24 +38,35 @@ async function parseQuestions(filename) {
 
     // Loop through each line
     for (const line of lines) {
-      // Split the line into three parts based on "Would you rather" and "or"
+      // Remove unwanted characters
       const sanitizedLine = line.replace(/[?,]/g, '');
-      const [wouldYouRather, middlePart, nextPart] = sanitizedLine.split(/Would you rather | or /);
-
-      // Store the parts in a structured format
-      parsedQuestions.push({
-        wouldYouRather: wouldYouRather.trim(),
-        middlePart: middlePart.trim(),
-        nextPart: nextPart.trim()
-      });
+      // Split the line into parts
+      const parts = sanitizedLine.split(/Would you rather | or /);
+    
+      if (parts.length === 3) {
+        // If we have exactly three parts, proceed
+        const [wouldYouRather, middlePart, nextPart] = parts;
+    
+        // Store the parts in a structured format
+        parsedQuestions.push({
+          wouldYouRather: wouldYouRather.trim(),
+          middlePart: middlePart.trim(),
+          nextPart: nextPart.trim()
+        });
+      } else {
+        // Handle the error or log it for debugging
+        console.log('Unexpected format:', sanitizedLine);
+      }
     }
 
     // Loop through each parsed question and create a question
+    let i = 1;
     for (const question of parsedQuestions) {
-      console.log(question);  
-      // const option1 = question.middlePart;
-        // const option2 = question.nextPart;
-        // createQuestion(option1, option2);
+      console.log(i, question);  
+      const option1 = question.middlePart;
+      const option2 = question.nextPart;
+      createQuestion(option1, option2);
+      i++;
     }
     
     return parsedQuestions;
